@@ -40,6 +40,27 @@ server.post('/users', (req, res) => {
         });
 });
 
+server.delete('/users/:id', (req, res) => {
+    const userId = req.params.id;
+    db
+        .remove(userId)
+        .then(() => {
+            res.end();
+        })
+        .catch(err => {
+            res.status(404).json({
+                error: err,
+                message: "The user with the specified ID does not exist."
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                error: err,
+                message: "The user could not be removed"
+            });
+        });
+});
+
 server.listen(5000, () => {
     console.log('\n*** API running on port 5k ***\n')
 })
